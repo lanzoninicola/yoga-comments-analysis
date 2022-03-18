@@ -1,0 +1,4 @@
+GET https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&pageToken=CBkQAA&q=surfing&key=AIzaSyCF-jUfUo4EndcLZ8-riY5_f0Jmg-kXp_I
+
+Authorization: Bearer ya29.A0ARrdaM_Fko7p20i5pfBo18Lca6WWTJ6OdxMkutRixjNevv-r5Mo44m53qW51unNiaZo1kAxK-KeCREaHvqweF-V1m8Z_Ll6BYIX6a8EyWwLqY6J6qbPhloT_Iydevtr7MI3KLQv6hS_ra4qEw9DpW2aOjD1f
+Accept: application/json
