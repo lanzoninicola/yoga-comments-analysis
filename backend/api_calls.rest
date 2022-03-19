@@ -1,4 +1,45 @@
-GET https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&pageToken=CBkQAA&q=surfing&key=AIzaSyCF-jUfUo4EndcLZ8-riY5_f0Jmg-kXp_I
-
-Authorization: Bearer ya29.A0ARrdaM_Fko7p20i5pfBo18Lca6WWTJ6OdxMkutRixjNevv-r5Mo44m53qW51unNiaZo1kAxK-KeCREaHvqweF-V1m8Z_Ll6BYIX6a8EyWwLqY6J6qbPhloT_Iydevtr7MI3KLQv6hS_ra4qEw9DpW2aOjD1f
+GET https://content-youtube.googleapis.com/youtube/v3/comments?part=snippet&parentId=UgzDE2tasfmrYLyNkGt4AaABAg&key=AIzaSyAa8yy0GdcGPHdtD083HiGGx_S0vMPScDM
 Accept: application/json
+Referer: https://content-youtube.googleapis.com/static/proxy.html?usegapi=1&jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.NnK9YPjtg-w.O%2Fd%3D1%2Frs%3DAHpOoo9KePDGVlGjp-rlXwDM1kUO2Eh4gg%2Fm%3D__features__
+
+{
+"kind": "youtube#commentThreadListResponse",
+"etag": "sMxx-r4eInbu4W3SLES-zOLvEMs",
+"nextPageToken": "QURTSl9pMWl4TG5OZHFEY201SU1NTWlTVU94WWtQOTA4aENmX05STVRBQVNoWWRhYk5EWlpVbXpNQVhSQmJqQk5QNklKN1hLdWJwOU9LOA==",
+"pageInfo": {
+"totalResults": 100,
+"resultsPerPage": 100
+},
+"items": [
+    {
+    "kind": "youtube#commentThread",
+    "etag": "g1H5yjdxFV6qCUlsduR_6VSjkeM",
+    "id": "UgxmgVTm3MtvLnvt_ZF4AaABAg",
+    "snippet": {
+    "videoId": "dduF38FMMWU",
+    "topLevelComment": {
+    "kind": "youtube#comment",
+    "etag": "VE315y513_jKzdAGJ6WbP6mN77k",
+    "id": "UgxmgVTm3MtvLnvt_ZF4AaABAg",
+    "snippet": {
+        "videoId": "dduF38FMMWU",
+        "textDisplay": "Dra. Katia deu uma verdadeira aula perfeitamente explicativa. Ganhou mais uma inscrita. Explica muito bem. 👏🏻",
+        "textOriginal": "Dra. Katia deu uma verdadeira aula perfeitamente explicativa. Ganhou mais uma inscrita. Explica muito bem. 👏🏻",
+        "authorDisplayName": "Carol Fagundes",
+        "authorProfileImageUrl": "https://yt3.ggpht.com/_Xa7ij6saQAKtV91P1YexD9DOajA6EFQhpitktZCep0Kq9OIhFuiyLlcMmUhq8Id39zQ6kVp=s48-c-k-c0x00ffffff-no-rj",
+        "authorChannelUrl": "http://www.youtube.com/channel/UCjb_OrCHUSX6ocYWVjko3yw",
+        "authorChannelId": {
+        "value": "UCjb_OrCHUSX6ocYWVjko3yw"
+    },
+    "canRate": true,
+    "viewerRating": "none",
+    "likeCount": 0,
+    "publishedAt": "2022-03-16T02:43:34Z",
+    "updatedAt": "2022-03-16T02:43:34Z"
+    }
+    },
+    "canReply": true,
+    "totalReplyCount": 0,
+    "isPublic": true
+    }
+    },

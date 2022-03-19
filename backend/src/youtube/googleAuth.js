@@ -1,8 +1,3 @@
-/**
- *
- * @description How to check quota
- * https://console.cloud.google.com/iam-admin/quotas?service=youtube.googleapis.com&project=yoga-comments-analysis
- */
 import { google } from "googleapis";
 import "dotenv/config";
 
