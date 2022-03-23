@@ -3,19 +3,17 @@ import "dotenv/config";
 
 import express from "express";
 
+import {
+  channelCommentsService,
+  videoCommentsService,
+} from "../src/app/comments/comments.service.js";
+import crowdServiceBuilder from "../src/app/crowd/crowd.service.js";
+import videoService from "../src/app/videos/videos.service.js";
+import store from "../src/store.js";
 import { getGoogleAuthURL, getGoogleToken } from "../src/youtube/googleAuth.js";
-import { Store } from "../src/store.js";
 
 // data to be stored in the session
-const store = new Store();
 const GAPI_ACCESS_TOKEN_KEY = "GAPI_ACCESS_TOKEN_KEY";
-
-import {
-  YouTubeChannelCommentThread,
-  YouTubeVideoCommentThread,
-} from "../src/app/comments/comments.js";
-import { CommentCollection } from "../src/models/comments/comments.collection.js";
-import { YouTubeChannelVideo } from "../src/app/videos/videos.js";
 
 const router = express.Router();
 
@@ -60,9 +58,7 @@ router.get("/api/youtube/comments/video", async (req, res) => {
 
   try {
     const { id } = req.query;
-    const commentThread = new YouTubeVideoCommentThread();
-
-    const commentsData = await commentThread.list(id);
+    const commentsData = await videoCommentsService.getAllPaginated(id);
     res.send(commentsData);
   } catch (e) {
     const code = e?.code || 500;
@@ -80,21 +76,10 @@ router.get("/api/youtube/comments/video", async (req, res) => {
 router.get("/api/youtube/comments/video/all", async (req, res) => {
   try {
     const { id } = req.query;
-    const commentThread = new YouTubeVideoCommentThread();
-    const collection = new CommentCollection();
 
-    let commentsData = await commentThread.list(id);
-    let nextPageToken = commentsData.nextPageToken;
+    let commentsData = await videoCommentsService.getAll({ id });
 
-    collection.addBulk(commentsData.comments);
-
-    while (nextPageToken) {
-      commentsData = await commentThread.list(id, nextPageToken);
-      collection.addBulk(commentsData.comments);
-      nextPageToken = commentsData.nextPageToken;
-    }
-
-    res.send(collection.comments);
+    res.send(commentsData);
   } catch (e) {
     const code = e?.code || 500;
     const error =
@@ -112,10 +97,11 @@ router.get("/api/youtube/comments/channel", async (req, res) => {
   // UCAuUUnT6oDeKwE6v1NGQxug
 
   try {
-    const { id } = req.query;
-    const commentThread = new YouTubeChannelCommentThread();
-
-    const commentsData = await commentThread.list(id);
+    const { id, nextPage } = req.query;
+    const commentsData = await channelCommentsService.getAllPaginated({
+      id,
+      nextPage,
+    });
     res.send(commentsData);
   } catch (e) {
     const code = e?.code || 500;
@@ -123,32 +109,28 @@ router.get("/api/youtube/comments/channel", async (req, res) => {
       e instanceof TypeError
         ? { status: code, message: "An error has occurred" }
         : e;
+
     res.status(code).send(error);
   }
 });
 
 /**
- * @description Get a not paginated list of all the comments of a specific channelId
+ * @description Get a NOT paginated list of all the comments of a specific channelId
+ *
+ * This api returns all the comments of a channel with no filters,
+ * then it is a very large data set and it is not recommended to use it.
+ * It is best use the api "/api/youtube/videos/comments" that
+ * filters the comments by the publishedAfter date of the video.
+ *
  */
 router.get("/api/youtube/comments/channel/all", async (req, res) => {
   // TODO: need to refactor this repeated code
   try {
     const { id } = req.query;
-    const commentThread = new YouTubeChannelCommentThread();
-    const collection = new CommentCollection();
 
-    let commentsData = await commentThread.list(id);
-    let nextPageToken = commentsData.nextPageToken;
+    let commentsData = await channelCommentsService.getAll({ id });
 
-    collection.addBulk(commentsData.comments);
-
-    while (nextPageToken) {
-      commentsData = await commentThread.list(id, nextPageToken);
-      collection.addBulk(commentsData.comments);
-      nextPageToken = commentsData.nextPageToken;
-    }
-
-    res.send(collection.comments);
+    res.send(commentsData);
   } catch (e) {
     const code = e?.code || 500;
     const error =
@@ -164,11 +146,13 @@ router.get("/api/youtube/comments/channel/all", async (req, res) => {
  */
 router.get("/api/youtube/videos/channel", async (req, res) => {
   try {
-    const { id: channelId } = req.query;
-    const channel = new YouTubeChannelVideo();
-    const { videos, nextPageToken, prevPageToken } = await channel.list({
-      channelId,
-    });
+    const { id: channelId, nextPage, prevPage } = req.query;
+    const pageToken = nextPage || prevPage;
+    const { videos, nextPageToken, prevPageToken } =
+      await videoService.getAllPaginated({
+        channelId,
+        pageToken,
+      });
     res.send({
       nextPageToken,
       prevPageToken,
@@ -184,20 +168,67 @@ router.get("/api/youtube/videos/channel", async (req, res) => {
   }
 });
 
+/**
+ * @description Get the list of comment of videos published X days ago
+ *
+ * @param {string} id - channelId
+ * @param {string} type - video|channel|playlist
+ * @param {number} days - number of days
+ */
 router.get("/api/youtube/videos/comments", async (req, res) => {
   try {
-    const { id: channelId } = req.query;
-    const channel = new YouTubeChannelVideo();
-    const comments = new YouTubeVideoCommentThread();
+    const { id: channelId, days, type } = req.query;
+    const daysToDate = days || 10;
 
-    const videos = await channel.getAll({ channelId });
-
-    videos.forEach(async (video) => {
-      const commentsData = await comments.list(video.id);
-      res.send(commentsData);
+    let collection = [];
+    collection = await videoService.getAllVideosComments({
+      channelId,
+      daysToDate,
     });
-  } catch (error) {
-    res.status(error.code).send(error);
+
+    res.send(collection);
+  } catch (e) {
+    console.log(e);
+    const code = e?.code || 500;
+    const error =
+      e instanceof TypeError
+        ? { status: code, message: "An error has occurred" }
+        : e;
+    res.status(code).send(error);
+  }
+});
+
+/**
+ * @description
+ */
+router.get("/api/youtube/videos/comments/crowd", async (req, res) => {
+  try {
+    const { id: channelId, days } = req.query;
+    const daysToDate = days || 10;
+
+    let collection = [];
+
+    try {
+      collection = await videoService.getAllVideosComments({
+        channelId,
+        daysToDate,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    const crowdService = crowdServiceBuilder(collection);
+
+    const frequencyMap = crowdService.getFrequencyMap();
+
+    res.send(frequencyMap);
+  } catch (e) {
+    const code = e?.code || 500;
+    const error =
+      e instanceof TypeError
+        ? { status: code, message: "An error has occurred" }
+        : e;
+    res.status(code).send(error);
   }
 });
 

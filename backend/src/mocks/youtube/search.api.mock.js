@@ -44,6 +44,7 @@ export class YouTubeSearchAPIMock {
           publishTime: "2021-02-05T22:00:05Z",
         },
       },
+      /*
       {
         kind: "youtube#searchResult",
         etag: "-uOzXXk29uQdLoPn3RVjsAc6I6g",
@@ -77,312 +78,6 @@ export class YouTubeSearchAPIMock {
           channelTitle: "Katia Haranaka",
           liveBroadcastContent: "none",
           publishTime: "2020-06-19T21:25:10Z",
-        },
-      },
-      {
-        kind: "youtube#searchResult",
-        etag: "e-5bNQJ3mF-zanmlHRPysfFs5cA",
-        id: {
-          kind: "youtube#playlist",
-          playlistId: "PLXVgdyqLRJ18oQuJKxto7ZohOAW5IWvsa",
-        },
-        snippet: {
-          publishedAt: "2021-01-22T19:19:53Z",
-          channelId: "UCCcmNppYF2F6f1R4uWqhkCA",
-          title: "Envelhecer Jovem",
-          description: "",
-          thumbnails: {
-            default: {
-              url: "https://i.ytimg.com/vi/VM0LL3MOmoE/default.jpg",
-              width: 120,
-              height: 90,
-            },
-            medium: {
-              url: "https://i.ytimg.com/vi/VM0LL3MOmoE/mqdefault.jpg",
-              width: 320,
-              height: 180,
-            },
-            high: {
-              url: "https://i.ytimg.com/vi/VM0LL3MOmoE/hqdefault.jpg",
-              width: 480,
-              height: 360,
-            },
-          },
-          channelTitle: "Katia Haranaka",
-          liveBroadcastContent: "none",
-          publishTime: "2021-01-22T19:19:53Z",
-        },
-      },
-      {
-        kind: "youtube#searchResult",
-        etag: "Zfi4gArSqeuFa5fspGzuOqMCBSw",
-        id: {
-          kind: "youtube#playlist",
-          playlistId: "PLXVgdyqLRJ1_p1kirhds2ZskkyAF5SLVq",
-        },
-        snippet: {
-          publishedAt: "2021-10-20T19:51:56Z",
-          channelId: "UCCcmNppYF2F6f1R4uWqhkCA",
-          title: "Katia Responde",
-          description: "",
-          thumbnails: {
-            default: {
-              url: "https://i.ytimg.com/vi/792LKbM7gEk/default.jpg",
-              width: 120,
-              height: 90,
-            },
-            medium: {
-              url: "https://i.ytimg.com/vi/792LKbM7gEk/mqdefault.jpg",
-              width: 320,
-              height: 180,
-            },
-            high: {
-              url: "https://i.ytimg.com/vi/792LKbM7gEk/hqdefault.jpg",
-              width: 480,
-              height: 360,
-            },
-          },
-          channelTitle: "Katia Haranaka",
-          liveBroadcastContent: "none",
-          publishTime: "2021-10-20T19:51:56Z",
-        },
-      },
-      {
-        kind: "youtube#searchResult",
-        etag: "ruV--hwH5FU2iO8ZgWd97MoQZZQ",
-        id: {
-          kind: "youtube#playlist",
-          playlistId: "PLXVgdyqLRJ18Pf4P4W9vtEhZ-yMrpc1E7",
-        },
-        snippet: {
-          publishedAt: "2021-05-28T21:18:28Z",
-          channelId: "UCCcmNppYF2F6f1R4uWqhkCA",
-          title: "Ter beleza é ter saúde",
-          description: "",
-          thumbnails: {
-            default: {
-              url: "https://i.ytimg.com/vi/dduF38FMMWU/default.jpg",
-              width: 120,
-              height: 90,
-            },
-            medium: {
-              url: "https://i.ytimg.com/vi/dduF38FMMWU/mqdefault.jpg",
-              width: 320,
-              height: 180,
-            },
-            high: {
-              url: "https://i.ytimg.com/vi/dduF38FMMWU/hqdefault.jpg",
-              width: 480,
-              height: 360,
-            },
-          },
-          channelTitle: "Katia Haranaka",
-          liveBroadcastContent: "none",
-          publishTime: "2021-05-28T21:18:28Z",
-        },
-      },
-      {
-        kind: "youtube#searchResult",
-        etag: "HwyF-hiafJSE3v_lfFdW-aRyiUs",
-        id: {
-          kind: "youtube#playlist",
-          playlistId: "PLXVgdyqLRJ18sxxmXnNoxFtY7ycx7Ld0R",
-        },
-        snippet: {
-          publishedAt: "2021-05-05T14:24:23Z",
-          channelId: "UCCcmNppYF2F6f1R4uWqhkCA",
-          title: "Especiais ao vivo",
-          description: "",
-          thumbnails: {
-            default: {
-              url: "https://i.ytimg.com/vi/JJ8Ydrcy5XI/default.jpg",
-              width: 120,
-              height: 90,
-            },
-            medium: {
-              url: "https://i.ytimg.com/vi/JJ8Ydrcy5XI/mqdefault.jpg",
-              width: 320,
-              height: 180,
-            },
-            high: {
-              url: "https://i.ytimg.com/vi/JJ8Ydrcy5XI/hqdefault.jpg",
-              width: 480,
-              height: 360,
-            },
-          },
-          channelTitle: "Katia Haranaka",
-          liveBroadcastContent: "none",
-          publishTime: "2021-05-05T14:24:23Z",
-        },
-      },
-      {
-        kind: "youtube#searchResult",
-        etag: "sflIqYP3uHR3iVbQScZEEzrMbVk",
-        id: {
-          kind: "youtube#playlist",
-          playlistId: "PLXVgdyqLRJ19fuZ0bS7vmCb5xT8gpacfH",
-        },
-        snippet: {
-          publishedAt: "2022-01-07T15:21:10Z",
-          channelId: "UCCcmNppYF2F6f1R4uWqhkCA",
-          title: "Trechos Importantes",
-          description: "",
-          thumbnails: {
-            default: {
-              url: "https://i.ytimg.com/vi/DmvUl-JfqSM/default.jpg",
-              width: 120,
-              height: 90,
-            },
-            medium: {
-              url: "https://i.ytimg.com/vi/DmvUl-JfqSM/mqdefault.jpg",
-              width: 320,
-              height: 180,
-            },
-            high: {
-              url: "https://i.ytimg.com/vi/DmvUl-JfqSM/hqdefault.jpg",
-              width: 480,
-              height: 360,
-            },
-          },
-          channelTitle: "Katia Haranaka",
-          liveBroadcastContent: "none",
-          publishTime: "2022-01-07T15:21:10Z",
-        },
-      },
-      {
-        kind: "youtube#searchResult",
-        etag: "4c6b04-iYnl6aelPAEY86CxjTo0",
-        id: {
-          kind: "youtube#playlist",
-          playlistId: "PLXVgdyqLRJ189XBPd2_YBUujhidQS-wJp",
-        },
-        snippet: {
-          publishedAt: "2016-08-12T20:25:32Z",
-          channelId: "UCCcmNppYF2F6f1R4uWqhkCA",
-          title: "Entrevistas para TV",
-          description: "",
-          thumbnails: {
-            default: {
-              url: "https://i.ytimg.com/vi/SfyuZAG-6T4/default.jpg",
-              width: 120,
-              height: 90,
-            },
-            medium: {
-              url: "https://i.ytimg.com/vi/SfyuZAG-6T4/mqdefault.jpg",
-              width: 320,
-              height: 180,
-            },
-            high: {
-              url: "https://i.ytimg.com/vi/SfyuZAG-6T4/hqdefault.jpg",
-              width: 480,
-              height: 360,
-            },
-          },
-          channelTitle: "Katia Haranaka",
-          liveBroadcastContent: "none",
-          publishTime: "2016-08-12T20:25:32Z",
-        },
-      },
-      {
-        kind: "youtube#searchResult",
-        etag: "Sk9gQjiVyyb2zu8jMWPKkeK9hqc",
-        id: {
-          kind: "youtube#playlist",
-          playlistId: "PLXVgdyqLRJ1_0gUmUoTC3yti4S5Wqf3g5",
-        },
-        snippet: {
-          publishedAt: "2016-07-04T23:38:21Z",
-          channelId: "UCCcmNppYF2F6f1R4uWqhkCA",
-          title: "Compartilhados",
-          description: "",
-          thumbnails: {
-            default: {
-              url: "https://i.ytimg.com/vi/CXGgUK5Oyqw/default.jpg",
-              width: 120,
-              height: 90,
-            },
-            medium: {
-              url: "https://i.ytimg.com/vi/CXGgUK5Oyqw/mqdefault.jpg",
-              width: 320,
-              height: 180,
-            },
-            high: {
-              url: "https://i.ytimg.com/vi/CXGgUK5Oyqw/hqdefault.jpg",
-              width: 480,
-              height: 360,
-            },
-          },
-          channelTitle: "Katia Haranaka",
-          liveBroadcastContent: "none",
-          publishTime: "2016-07-04T23:38:21Z",
-        },
-      },
-      {
-        kind: "youtube#searchResult",
-        etag: "pfrVJT1pfhzyPSK-cFb-moYSBA8",
-        id: {
-          kind: "youtube#playlist",
-          playlistId: "PLXVgdyqLRJ1-N0bY6wu-PUSJHwEWO60Ht",
-        },
-        snippet: {
-          publishedAt: "2020-10-09T18:48:06Z",
-          channelId: "UCCcmNppYF2F6f1R4uWqhkCA",
-          title: "Exames: ajudando você a entender",
-          description: "",
-          thumbnails: {
-            default: {
-              url: "https://i.ytimg.com/vi/20skyXiPKs8/default.jpg",
-              width: 120,
-              height: 90,
-            },
-            medium: {
-              url: "https://i.ytimg.com/vi/20skyXiPKs8/mqdefault.jpg",
-              width: 320,
-              height: 180,
-            },
-            high: {
-              url: "https://i.ytimg.com/vi/20skyXiPKs8/hqdefault.jpg",
-              width: 480,
-              height: 360,
-            },
-          },
-          channelTitle: "Katia Haranaka",
-          liveBroadcastContent: "none",
-          publishTime: "2020-10-09T18:48:06Z",
-        },
-      },
-      {
-        kind: "youtube#searchResult",
-        etag: "VYEweyWkyxRvzIva_kTiioQHlk0",
-        id: {
-          kind: "youtube#playlist",
-          playlistId: "PLXVgdyqLRJ1_denkKgo67lKdS7EL8_Vdi",
-        },
-        snippet: {
-          publishedAt: "2020-08-07T12:43:18Z",
-          channelId: "UCCcmNppYF2F6f1R4uWqhkCA",
-          title: "Cuidados com a pele",
-          description: "",
-          thumbnails: {
-            default: {
-              url: "https://i.ytimg.com/vi/EdgZg_9VQjA/default.jpg",
-              width: 120,
-              height: 90,
-            },
-            medium: {
-              url: "https://i.ytimg.com/vi/EdgZg_9VQjA/mqdefault.jpg",
-              width: 320,
-              height: 180,
-            },
-            high: {
-              url: "https://i.ytimg.com/vi/EdgZg_9VQjA/hqdefault.jpg",
-              width: 480,
-              height: 360,
-            },
-          },
-          channelTitle: "Katia Haranaka",
-          liveBroadcastContent: "none",
-          publishTime: "2020-08-07T12:43:18Z",
         },
       },
       {
@@ -1759,6 +1454,7 @@ export class YouTubeSearchAPIMock {
           publishTime: "2021-01-08T21:00:06Z",
         },
       },
+      */
     ],
   };
 
@@ -1767,19 +1463,23 @@ export class YouTubeSearchAPIMock {
   }
 
   videos(action, params) {
-    this.mockData = { ...this.mockData, nextPageToken: this.randomPageToken() };
-
     return new Promise((resolve) => {
-      const { channelId, pageToken } = params;
+      // const { channelId, pageToken } = params;
 
-      const cachedValue = this.cache.get(action, channelId, pageToken);
+      // const cachedValue = this.cache.get(action, channelId, pageToken);
 
-      if (cachedValue) {
-        resolve(cachedValue);
-      } else {
-        this.cache.set(action, channelId, pageToken, this.mockData);
-        resolve(this.mockData);
-      }
+      // if (cachedValue) {
+      //   resolve(cachedValue);
+      // } else {
+      //   this.cache.set(action, channelId, pageToken, this.mockData);
+      //   resolve(this.mockData);
+      // }
+
+      this.mockData = {
+        ...this.mockData,
+        nextPageToken: this.randomPageToken(),
+      };
+      resolve(this.mockData);
     });
   }
 

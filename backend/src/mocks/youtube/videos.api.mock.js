@@ -9,6 +9,9 @@ export class YouTubeChannelVideoAPIMock {
   }
 
   async list(action, { channelId, pageToken, daysToDate }) {
+    this.execution = this.execution + 1;
+    console.log("VIDEOS: execution", this.execution);
+
     if (this.execution < this.MAX_EXECUTION) {
       this.videos = await this.prodAPI.list(action, {
         channelId,
@@ -17,13 +20,13 @@ export class YouTubeChannelVideoAPIMock {
       });
     }
 
-    this.execution++;
-
     if (this.execution === this.MAX_EXECUTION) {
-      return (this.videos = {
+      this.videos = {
         ...this.videos,
         nextPageToken: null,
-      });
+      };
+      console.log("VIDEOS: max execution reached", this.execution);
+      this.execution = 0;
     }
 
     return this.videos;

@@ -1,8 +1,8 @@
-export class CommentSerializer {
+class CommentSerializer {
   /**
    * @param items - array - Deserialized array of comments from the Youtube API
    */
-  onlyText(items) {
+  extractCommentText(items) {
     return items.map((item) => {
       const { topLevelComment } = item.snippet;
       const { snippet: content } = topLevelComment;
@@ -13,3 +13,7 @@ export class CommentSerializer {
     });
   }
 }
+
+const commentSerializer = new CommentSerializer();
+
+export default commentSerializer;

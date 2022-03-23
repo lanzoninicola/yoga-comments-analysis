@@ -1,4 +1,4 @@
-export class Store {
+class Store {
   data = new Map();
 
   constructor() {}
@@ -11,3 +11,7 @@ export class Store {
     this.data.set(key, value);
   }
 }
+
+const store = new Store();
+
+export default store;

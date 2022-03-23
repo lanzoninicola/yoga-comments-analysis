@@ -43,6 +43,7 @@ export class YouTubeCommentThreadAPIMock {
           isPublic: true,
         },
       },
+
       {
         kind: "youtube#commentThread",
         etag: "-2RhxnwOsQtE23z9YI5RTz3vHEE",
@@ -293,6 +294,7 @@ export class YouTubeCommentThreadAPIMock {
           isPublic: true,
         },
       },
+      /*
       {
         kind: "youtube#commentThread",
         etag: "UHwPlxdCq_M0K3SupO-Dz2j3l8M",
@@ -3783,22 +3785,40 @@ export class YouTubeCommentThreadAPIMock {
           isPublic: true,
         },
       },
+      */
     ],
   };
 
+  constructor(cache) {
+    this.cache = cache;
+  }
+
   list(action, params) {
-    console.log("Im mocking the comments", action, params);
-
     return new Promise((resolve, reject) => {
-      const { channelId, pageToken } = params;
+      // const { channelId, pageToken } = params;
 
-      const cachedValue = this.cache.get(action, channelId, pageToken);
-      if (cachedValue) {
-        resolve(cachedValue);
-      } else {
-        this.cache.set(action, channelId, pageToken, this.mockData);
-        resolve(this.mockData);
-      }
+      // const cachedValue = this.cache.get(action, channelId, pageToken);
+      // if (cachedValue) {
+      //   resolve(cachedValue);
+      // } else {
+      //   this.cache.set(action, channelId, pageToken, this.mockData);
+      //   resolve(this.mockData);
+      // }
+
+      // with the below settings, the while loop will never be executed
+      // in the comments.service
+      this.mockData = {
+        ...this.mockData,
+        nextPageToken: null,
+      };
+
+      console.log("getting mock comment");
+
+      resolve(this.mockData);
     });
+  }
+
+  randomPageToken() {
+    return Math.random().toString(36).substring(7);
   }
 }
