@@ -149,7 +149,7 @@ router.get("/api/youtube/videos/channel", async (req, res) => {
     const { id: channelId, nextPage, prevPage } = req.query;
     const pageToken = nextPage || prevPage;
     const { videos, nextPageToken, prevPageToken } =
-      await videoService.getAllPaginated({
+      await videoService.getAllVideosByChannelIdPaginated({
         channelId,
         pageToken,
       });
@@ -181,7 +181,7 @@ router.get("/api/youtube/videos/comments", async (req, res) => {
     const daysToDate = days || 10;
 
     let collection = [];
-    collection = await videoService.getAllVideosComments({
+    collection = await videoService.getCommentsAllVideosByChannelId({
       channelId,
       daysToDate,
     });
@@ -199,9 +199,18 @@ router.get("/api/youtube/videos/comments", async (req, res) => {
 });
 
 /**
- * @description
+ * @description Returns an object with the key:value pairs of the word
+ * and the number of times it appears in the comments
+ * with the array of commetns that contains the word
+ *
+ * @param {string} channelId
+ * @param {number} days - number of days the video was published
+ *
+ * @return {object} { word: { frequency: number, comments: string[ ] } }
  */
 router.get("/api/youtube/videos/comments/crowd", async (req, res) => {
+  //UCCcmNppYF2F6f1R4uWqhkCA mara
+  // UCssWuTdNCWN4RSF3wHzzjMw nicola
   try {
     const { id: channelId, days } = req.query;
     const daysToDate = days || 10;
@@ -209,9 +218,51 @@ router.get("/api/youtube/videos/comments/crowd", async (req, res) => {
     let collection = [];
 
     try {
-      collection = await videoService.getAllVideosComments({
+      collection = await videoService.getCommentsAllVideosByChannelId({
         channelId,
         daysToDate,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    const crowdService = crowdServiceBuilder(collection);
+
+    const frequencyMap = crowdService.getFrequencyMap();
+
+    res.send(frequencyMap);
+  } catch (e) {
+    const code = e?.code || 500;
+    const error =
+      e instanceof TypeError
+        ? { status: code, message: "An error has occurred" }
+        : e;
+    res.status(code).send(error);
+  }
+});
+
+/**
+ * @description Returns an object with the key:value pairs of the word
+ * and the number of times it appears in the comments
+ * with the array of comments that contains the word
+ *
+ * @param {string} channelId
+ * @param {number} days - number of days the video was published
+ *
+ * @return {object} { word: { frequency: number, comments: string[ ] } }
+ */
+router.get("/api/youtube/video/comments/crowd", async (req, res) => {
+  //UCCcmNppYF2F6f1R4uWqhkCA mara
+  // UCssWuTdNCWN4RSF3wHzzjMw nicola
+  try {
+    const { channelId, videoId } = req.query;
+
+    let collection = [];
+
+    try {
+      collection = await videoService.getCommentsOfVideoId({
+        videoId,
+        channelId,
       });
     } catch (error) {
       console.log(error);
