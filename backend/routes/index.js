@@ -252,8 +252,8 @@ router.get("/api/youtube/videos/comments/crowd", async (req, res) => {
  * @return {object} { word: { frequency: number, comments: string[ ] } }
  */
 router.get("/api/youtube/video/comments/crowd", async (req, res) => {
-  //UCCcmNppYF2F6f1R4uWqhkCA mara
-  // UCssWuTdNCWN4RSF3wHzzjMw nicola
+  // Big call: http://localhost:3000/api/youtube/video/comments/crowd?channeld=UCp73CurZ5DWdCPExp8pP9Vw&videoId=Z1y3Alas8Zs
+  // Smart call: http://localhost:3000/api/youtube/video/comments/crowd?channeld=UCssWuTdNCWN4RSF3wHzzjMw&videoId=uThQCnqn1pU
   try {
     const { channelId, videoId } = req.query;
 
