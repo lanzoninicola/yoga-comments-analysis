@@ -8,12 +8,12 @@ export class YouTubeChannelVideoAPIMock {
     this.prodAPI = prodAPI;
   }
 
-  async list(action, { channelId, pageToken, daysToDate }) {
+  async allVideosByChannelId(action, { channelId, pageToken, daysToDate }) {
     this.execution = this.execution + 1;
     console.log("VIDEOS: execution", this.execution);
 
     if (this.execution < this.MAX_EXECUTION) {
-      this.videos = await this.prodAPI.list(action, {
+      this.videos = await this.prodAPI.allVideosByChannelId(action, {
         channelId,
         pageToken,
         daysToDate,
