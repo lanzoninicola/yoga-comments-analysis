@@ -22,12 +22,12 @@ class VideosService {
    *
    * @returns videos[] - array of videos deserialized
    */
-  async getAll({ channelId, pageToken, daysToDate }) {
+  async getAllVideosByChannelId({ channelId, pageToken, daysToDate }) {
     const SEARCH_ALL_VIDEOS = "SEARCH_ALL_VIDEOS";
 
     let videos = [];
 
-    let videosAPIData = await this.api.list(SEARCH_ALL_VIDEOS, {
+    let videosAPIData = await this.api.allVideosByChannelId(SEARCH_ALL_VIDEOS, {
       channelId,
       pageToken,
       daysToDate,
@@ -35,17 +35,16 @@ class VideosService {
 
     videos = [...videos, ...videosAPIData.items];
 
-    let nextPageToken = videosAPIData.nextPageToken;
+    let nextPageToken = videosAPIData?.nextPageToken;
 
     while (nextPageToken) {
-      console.log("videoservice - getAll - inside while", nextPageToken);
-      videosAPIData = await this.api.list(SEARCH_ALL_VIDEOS, {
+      videosAPIData = await this.api.allVideosByChannelId(SEARCH_ALL_VIDEOS, {
         channelId,
         pageToken: nextPageToken,
       });
       videos = [...videos, ...videosAPIData.items];
 
-      nextPageToken = videosAPIData.nextPageToken;
+      nextPageToken = videosAPIData?.nextPageToken;
     }
 
     const videoDeserialized = this.deserialize(videos);
@@ -62,14 +61,17 @@ class VideosService {
    *
    * @returns object - {  nextPageToken: string|null, prevPageToken: string|null, videos: array of videos deserialized }
    */
-  async getAllPaginated({ channelId, pageToken, daysToDate }) {
+  async getAllVideosByChannelIdPaginated({ channelId, pageToken, daysToDate }) {
     const SEARCH_ALL_VIDEOS_PAGINATED = "SEARCH_ALL_VIDEOS_PAGINATED";
 
-    let videosAPIData = await this.api.list(SEARCH_ALL_VIDEOS_PAGINATED, {
-      channelId,
-      pageToken,
-      daysToDate,
-    });
+    let videosAPIData = await this.api.allVideosByChannelId(
+      SEARCH_ALL_VIDEOS_PAGINATED,
+      {
+        channelId,
+        pageToken,
+        daysToDate,
+      }
+    );
 
     const { items, nextPageToken, prevPageToken } = videosAPIData;
     const videoDeserialized = this.deserialize(items);
@@ -79,6 +81,27 @@ class VideosService {
       prevPageToken: prevPageToken || null,
       videos: videoDeserialized,
     };
+  }
+
+  /**
+   *
+   * @description Returns the video of a channel by videoId and channelId.
+   * It uses the YouTube API search to get the video.
+   *
+   * @param {string} videoId - The *videoId* parameter specifies a YouTube video ID.
+   * @returns {object} - { video: { videoId: string, title: string, publishedAt: string } }
+   * @returns
+   */
+  async getVideoByChannelId({ videoId, channelId }) {
+    let videosAPIData = await this.api.videoByChannelId({
+      channelId,
+      videoId,
+    });
+
+    const { items } = videosAPIData;
+    const videoDeserialized = this.deserialize(items);
+
+    return videoDeserialized;
   }
 
   /**
@@ -104,10 +127,34 @@ class VideosService {
    * ]
    *
    */
-  async getAllVideosComments({ channelId, daysToDate }) {
-    const videos = await this.getAll({ channelId, daysToDate });
+  async getCommentsAllVideosByChannelId({ channelId, daysToDate }) {
+    const videos = await this.getAllVideosByChannelId({
+      channelId,
+      daysToDate,
+    });
 
-    let foo = [];
+    let collection = await Promise.all(
+      videos.map(async (video) => {
+        let commentsData = await this.videoCommentsService
+          .getAll({
+            id: video.videoId,
+          })
+          .catch((e) => console.log(e));
+
+        return {
+          videoId: video.videoId,
+          title: video.title,
+          publishedAt: video.publishedAt,
+          comments: commentsData,
+        };
+      })
+    );
+
+    return collection;
+  }
+
+  async getCommentsOfVideoId({ videoId, channelId }) {
+    const videos = await this.getVideoByChannelId({ videoId, channelId });
 
     let collection = await Promise.all(
       videos.map(async (video) => {
