@@ -26,34 +26,24 @@ class CommentsService {
    *
    * @returns comments[] - array of comments deserialized
    */
-  async getAll({ id, nextPageToken }) {
+  async getAll({ id }) {
     console.log("Getting all comments");
     const ALL_COMMENTS = "ALL_COMMENTS";
 
     let comments = [];
 
-    let params = this.getParams({ id, nextPageToken });
+    let params = this.getParams({ id });
 
     let commentsAPIResponsePage = await this.api
       .list(ALL_COMMENTS, params)
       .catch((e) => console.log(e));
 
-    // console.log(commentsAPIResponsePage.items[0]);
+    let _nextPageToken = commentsAPIResponsePage?.nextPageToken;
 
-    let { items, nextPageToken: _nextPageToken } = commentsAPIResponsePage;
-
-    if (typeof items === "undefined") {
-      console.log(commentsAPIResponsePage);
-    }
-
-    // console.log("items", typeof items);
-
-    comments = [...comments, ...items];
-
-    console.log("Getting comments post first page token", _nextPageToken);
+    comments = [...comments, ...commentsAPIResponsePage.items];
 
     while (_nextPageToken) {
-      let params = this.getParams({ id, _nextPageToken });
+      let params = this.getParams({ id, nextPageToken: _nextPageToken });
 
       commentsAPIResponsePage = await this.api.list(ALL_COMMENTS, params);
       console.log(
@@ -61,7 +51,7 @@ class CommentsService {
         commentsAPIResponsePage.nextPageToken
       );
       comments = [...comments, ...commentsAPIResponsePage.items];
-      _nextPageToken = commentsAPIResponsePage.nextPageToken;
+      _nextPageToken = commentsAPIResponsePage?.nextPageToken;
     }
 
     const commentDeserialized = this._deserialize(comments);
@@ -125,10 +115,6 @@ class CommentsService {
     return this.serializer.extractCommentText(items);
   }
 
-  normalize(items) {
-    return this.serializer.extractCommentText(items);
-  }
-
   getParams({ id, nextPageToken }) {
     if (this.context === "channel") {
       return this.apiParams.channel({ id, nextPageToken });
@@ -151,25 +137,35 @@ class CommentsService {
 
 class CommentThreadParams {
   baseParams = {
-    part: "snippet,replies",
+    part: "snippet",
     maxResults: 100,
     textFormat: "plainText",
   };
 
   video({ id, nextPageToken }) {
-    return {
+    const params = {
       ...this.baseParams,
       videoId: id,
-      nextPageToken: nextPageToken ? nextPageToken : "",
     };
+
+    if (nextPageToken) {
+      params.pageToken = nextPageToken;
+    }
+
+    return params;
   }
 
   channel({ id, nextPageToken }) {
-    return {
+    const params = {
       ...this.baseParams,
       allThreadsRelatedToChannelId: id,
-      nextPageToken: nextPageToken ? nextPageToken : "",
     };
+
+    if (nextPageToken) {
+      params.pageToken = nextPageToken;
+    }
+
+    return params;
   }
 }
 
