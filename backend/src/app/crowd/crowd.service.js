@@ -36,11 +36,7 @@ class CrowdService {
    */
   _extractAndNormalizeComments() {
     const text = this.dataset
-      .map((commentData) =>
-        commentData.comments.map((commentText) =>
-          this._normalizeText(commentText)
-        )
-      )
+      .map((commentData) => commentData.comments)
       .filter((comment) => comment.length > 0);
 
     this.commentsText = text.flat();
@@ -52,17 +48,28 @@ class CrowdService {
    */
   _buildCommentFrequencyMap() {
     this.commentsText.forEach((comment) => {
-      const words = this._splitWords(comment);
+      const commentNormalized = this._normalizeText(comment);
+      const words = this._splitWords(commentNormalized);
 
       if (Array.isArray(words)) {
         words.forEach((word) => {
           if (this.commentFrequencyMap.has(word)) {
-            this.commentFrequencyMap.set(
-              word,
-              this.commentFrequencyMap.get(word) + 1
-            );
+            const newFrequency =
+              this.commentFrequencyMap.get(word).frequency + 1;
+            const newComments = [
+              ...this.commentFrequencyMap.get(word).comments,
+              comment,
+            ];
+
+            this.commentFrequencyMap.set(word, {
+              frequency: newFrequency,
+              comments: newComments,
+            });
           } else {
-            this.commentFrequencyMap.set(word, 1);
+            this.commentFrequencyMap.set(word, {
+              frequency: 1,
+              comments: [comment],
+            });
           }
         });
       }
@@ -84,7 +91,6 @@ class CrowdService {
       .removeEmojy()
       .removePunctuations()
       .removeWordShorthenThan()
-      .toSingular()
       .get();
   }
 
