@@ -15,19 +15,19 @@ class YouTubeCommentThreadAPI {
     return new Promise((resolve, reject) => {
       const { channelId, pageToken } = params;
 
-      const cachedValue = this.cache.get(action, channelId, pageToken);
-      if (cachedValue) {
-        resolve(cachedValue);
-      } else {
-        client.commentThreads.list(params, (err, response) => {
-          if (err) {
-            reject(new YouTubeAPIError(err));
-          } else {
-            this.cache.set(action, channelId, pageToken, response.data);
-            resolve(response.data);
-          }
-        });
-      }
+      // const cachedValue = this.cache.get(action, channelId, pageToken);
+      // if (cachedValue) {
+      //   resolve(cachedValue);
+      // } else {
+      client.commentThreads.list(params, (err, response) => {
+        if (err) {
+          reject(new YouTubeAPIError(err));
+        } else {
+          // this.cache.set(action, channelId, pageToken, response.data);
+          resolve(response.data);
+        }
+      });
+      // }
     });
   }
 }
