@@ -19,26 +19,34 @@ class YouTubeChannelVideoAPI {
    *
    * @returns video - Data returned from the YouTube API not serialized
    */
-  async list(action, { channelId, pageToken, daysToDate }) {
+  async allVideosByChannelId(action, { channelId, pageToken, daysToDate }) {
     const searchVideoParams = this.searchParams.videos({
       channelId,
       pageToken,
       daysToDate,
     });
 
-    const videosResponseData = await this.searchAPI.videos(
-      action,
-      searchVideoParams
-    );
+    const videosResponseData = await this.searchAPI.videos(searchVideoParams);
 
-    const videos = {
-      ...videosResponseData,
-      item: videosResponseData.items.filter(
-        (video) => video.id.kind === "youtube#video"
-      ),
-    };
+    return videosResponseData;
+  }
 
-    return videos;
+  /**
+   * @description Call YouTube API search trying to return a video from a channel by its videoId
+   *
+   * @param {string} channelId
+   * @param {string} videoId
+   * @returns
+   */
+  async videoByChannelId({ channelId, videoId }) {
+    const searchVideoParams = this.searchParams.video({
+      channelId,
+      videoId,
+    });
+
+    const videosResponseData = await this.searchAPI.videos(searchVideoParams);
+
+    return videosResponseData;
   }
 }
 
@@ -48,6 +56,6 @@ const videosApiProd = new YouTubeChannelVideoAPI(searchAPI, searchParams);
 
 const videosApiMock = new YouTubeChannelVideoAPIMock(videosApiProd);
 
-videosApi = process.env.DEV_STATE === "prod" ? videosApiProd : videosApiMock;
+videosApi = process.env.DEV_STATE === "test" ? videosApiProd : videosApiMock;
 
 export default videosApi;
