@@ -29,7 +29,9 @@ class TextNormalizer {
   }
 
   removePunctuations() {
-    this.resultText = this.resultText.replace(/[^a-zA-Z ]/g, "");
+    this.resultText = this.resultText
+      .normalize("NFD")
+      .replace(/[^a-zA-Z ]/g, "");
 
     return this;
   }
@@ -67,7 +69,7 @@ class TextNormalizer {
   }
 
   _splitWords(sentence) {
-    return sentence.match(/[A-Za-zÀ-ÿ^\']+/g);
+    return sentence.split(" ");
   }
 
   /**
